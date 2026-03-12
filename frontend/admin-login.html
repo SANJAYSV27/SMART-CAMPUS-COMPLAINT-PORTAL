@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Portal | Smart Campus</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Darker specific theme for admin */
+        .auth-bg {
+            filter: blur(12px) brightness(0.25);
+        }
+
+        .auth-card {
+            border-top: 4px solid var(--danger);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="auth-container">
+        <div class="auth-bg"></div>
+        <div class="auth-card">
+            <div class="auth-header">
+                <h1 class="auth-title">Admin Access</h1>
+                <p class="auth-subtitle">Secure login for system administrators</p>
+            </div>
+
+            <form id="adminLoginForm">
+                <div class="form-group">
+                    <label for="adminId" class="form-label">Admin ID</label>
+                    <input type="text" id="adminId" class="form-control" placeholder="e.g. ADMIN_01" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password" class="form-label">Admin Password</label>
+                    <input type="password" id="password" class="form-control" placeholder="••••••••" required>
+                </div>
+
+                <button type="submit" class="btn btn-primary" id="loginBtn"
+                    style="background-color: var(--danger); box-shadow: 0 4px 6px -1px rgba(239, 68, 68, 0.4);">
+                    <span><i class="fa-solid fa-shield-halved"></i> Authenticate</span>
+                </button>
+            </form>
+
+            <div class="auth-footer">
+                <p><a href="index.html" class="auth-link">Return to Home</a></p>
+            </div>
+        </div>
+    </div>
+    <div class="toast-container" id="toastContainer"></div>
+    <script src="config.js"></script>
+    <script src="admin-login.js"></script>
+</body>
+
+</html>

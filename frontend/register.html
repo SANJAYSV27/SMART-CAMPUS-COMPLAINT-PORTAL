@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Campus | Register</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Registration specific styles */
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .password-strength {
+            height: 4px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            margin-top: 8px;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .strength-bar {
+            height: 100%;
+            width: 0%;
+            transition: all 0.3s ease;
+        }
+
+        .strength-text {
+            font-size: 0.75rem;
+            margin-top: 4px;
+            color: var(--text-muted);
+            display: block;
+            text-align: right;
+        }
+
+        .weak {
+            width: 33%;
+            background: var(--danger);
+        }
+
+        .medium {
+            width: 66%;
+            background: var(--warning);
+        }
+
+        .strong {
+            width: 100%;
+            background: var(--success);
+        }
+
+        .auth-card {
+            max-width: 600px;
+            /* Slightly wider for grid */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="auth-container">
+        <div class="auth-bg"></div>
+        <div class="auth-card">
+            <div class="auth-header">
+                <h1 class="auth-title">Create Account</h1>
+                <p class="auth-subtitle">Register for the Student Complaint Portal</p>
+            </div>
+
+            <form id="registerForm">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="name" class="form-label">Full Name</label>
+                        <input type="text" id="name" class="form-control" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="studentId" class="form-label">Student ID</label>
+                        <input type="text" id="studentId" class="form-control" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="department" class="form-label">Department</label>
+                        <select id="department" class="form-control" required
+                            style="appearance: none; background: rgba(15, 23, 42, 0.6) url('data:image/svg+xml;utf8,<svg fill=%22white%22 viewBox=%220 0 24 24%22 xmlns=%22http://www.w3.org/2000/svg%22><path d=%22M7 10l5 5 5-5z%22 /></svg>') no-repeat right 10px center; background-size: 20px;">
+                            <option value="" disabled selected>Select Department</option>
+                            <option value="Computer Science">Computer Science</option>
+                            <option value="Information Technology">Information Technology</option>
+                            <option value="Electronics (ECE)">Electronics (ECE)</option>
+                            <option value="Electrical (EEE)">Electrical (EEE)</option>
+                            <option value="Mechanical">Mechanical</option>
+                            <option value="Civil">Civil</option>
+                            <option value="Business">Business</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone" class="form-label">Phone Number</label>
+                        <input type="tel" id="phone" class="form-control" required>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label for="email" class="form-label">Email Address</label>
+                        <input type="email" id="email" class="form-control" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" id="password" class="form-control" required>
+                        <div class="password-strength">
+                            <div class="strength-bar" id="strengthBar"></div>
+                        </div>
+                        <span class="strength-text" id="strengthText"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="confirmPassword" class="form-label">Confirm Password</label>
+                        <input type="password" id="confirmPassword" class="form-control" required>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary" id="registerBtn" style="margin-top: 1rem;">
+                    <span>Register Account</span>
+                </button>
+            </form>
+
+            <div class="auth-footer">
+                <p>Already have an account? <a href="student-login.html" class="auth-link">Sign in here</a></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="config.js"></script>
+    <script src="register.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile | Smart Campus</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .profile-card {
+            background: var(--surface-dark);
+            border: 1px solid var(--surface-border);
+            border-radius: 20px;
+            padding: 3rem;
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .profile-avatar-large {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--info));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            font-weight: 700;
+            color: white;
+            box-shadow: 0 10px 25px -5px rgba(37, 99, 235, 0.5);
+            border: 4px solid var(--bg-dark);
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .avatar-upload-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .profile-avatar-large:hover .avatar-upload-overlay {
+            opacity: 1;
+        }
+
+        .profile-avatar-large img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .profile-info {
+            width: 100%;
+            text-align: left;
+            background: rgba(15, 23, 42, 0.6);
+            padding: 2rem;
+            border-radius: 16px;
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .info-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .info-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .info-value {
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        .profile-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+            width: 100%;
+        }
+
+        .profile-actions .btn {
+            flex: 1;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--surface-dark);
+            border: 1px solid var(--surface-border);
+            padding: 2rem;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid var(--surface-border);
+            padding-bottom: 1rem;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .close-modal:hover {
+            color: var(--text-color);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <a href="dashboard.html" class="sidebar-brand">
+                <img src="assets/logo.png" alt="Logo"
+                    onerror="this.src='https://via.placeholder.com/32/2563EB/FFFFFF?text=C'">
+                Smart Campus
+            </a>
+            <nav class="nav-menu">
+                <a href="dashboard.html" class="nav-item"><i class="fa-solid fa-chart-pie"></i> Dashboard</a>
+                <a href="submit-complaint.html" class="nav-item"><i class="fa-solid fa-plus-circle"></i> Submit
+                    Complaint</a>
+                <a href="complaint-list.html" class="nav-item"><i class="fa-solid fa-list"></i> View Complaints</a>
+                <a href="profile.html" class="nav-item active"><i class="fa-solid fa-user"></i> My Profile</a>
+                <a href="#" class="nav-item nav-logout" id="logoutBtn"><i class="fa-solid fa-sign-out-alt"></i>
+                    Logout</a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header class="topbar">
+                <h2 class="page-title">My Profile</h2>
+                <div class="user-profile">
+                    <!-- Notifications -->
+                    <div class="notification-wrapper">
+                        <button class="notification-btn" id="notifBtn">
+                            <i class="fa-regular fa-bell"></i>
+                            <span class="notification-badge hidden" id="notifBadge">0</span>
+                        </button>
+                        <div class="notification-dropdown" id="notifDropdown">
+                            <div class="notification-header">
+                                <h3>Notifications</h3>
+                                <button class="mark-all-read" id="notifMarkAll">Mark all as read</button>
+                            </div>
+                            <ul class="notification-list" id="notifList">
+                                <!-- JS injected items -->
+                                <li class="notification-empty">No notifications yet.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="user-info" style="text-align: right; margin-left: 1rem;">
+                        <span class="user-name" id="topName">Student Name</span>
+                        <span class="user-role" id="topId">ID: CS101</span>
+                    </div>
+                    <div class="avatar" id="topAvatar">S</div>
+                </div>
+            </header>
+
+            <section class="page-content">
+                <div class="profile-card">
+                    <input type="file" id="profileImageUpload" accept="image/*" style="display: none;">
+                    <div class="profile-avatar-large" id="mainAvatar" onclick="document.getElementById('profileImageUpload').click()">
+                        <span id="mainAvatarText">S</span>
+                        <div class="avatar-upload-overlay"><i class="fa-solid fa-camera"></i></div>
+                    </div>
+                    <div>
+                        <h2 id="mainName" style="font-size: 1.5rem; font-weight: 600;">Student Name</h2>
+                        <p id="mainRole" style="color: var(--primary); font-weight: 500;">Enrolled Student</p>
+                    </div>
+
+                    <div class="profile-info">
+                        <div class="info-group">
+                            <span class="info-label"><i class="fa-regular fa-id-badge"></i> Student ID</span>
+                            <span class="info-value" id="infoStudentId">Loading...</span>
+                        </div>
+                        <div class="info-group">
+                            <span class="info-label"><i class="fa-solid fa-building"></i> Department</span>
+                            <span class="info-value" id="infoDepartment">Loading...</span>
+                        </div>
+                        <div class="info-group">
+                            <span class="info-label"><i class="fa-regular fa-envelope"></i> Email Address</span>
+                            <span class="info-value" id="infoEmail">Loading...</span>
+                        </div>
+                        <div class="info-group">
+                            <span class="info-label"><i class="fa-solid fa-phone"></i> Phone Number</span>
+                            <span class="info-value" id="infoPhone">Loading...</span>
+                        </div>
+                    </div>
+
+                    <div class="profile-actions">
+                        <button class="btn btn-outline" id="editProfileBtn"><i class="fa-solid fa-pen"></i> Edit Profile</button>
+                        <button class="btn btn-primary" id="changePasswordBtn"><i class="fa-solid fa-lock"></i> Change Password</button>
+                    </div>
+
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Edit Profile Modal -->
+    <div class="modal" id="editProfileModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Edit Profile</h3>
+                <button class="close-modal" id="closeEditModal">&times;</button>
+            </div>
+            <form id="editProfileForm">
+                <div class="form-group">
+                    <label class="form-label" for="editEmail">Email Address</label>
+                    <input type="email" class="form-control" id="editEmail" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="editPhone">Phone Number</label>
+                    <input type="tel" class="form-control" id="editPhone" required pattern="[0-9]{10}" title="10 digit mobile number">
+                </div>
+                <button type="submit" class="btn btn-primary" style="margin-top: 1rem;">Save Changes</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Change Password Modal -->
+    <div class="modal" id="changePasswordModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Change Password</h3>
+                <button class="close-modal" id="closePasswordModal">&times;</button>
+            </div>
+            <form id="changePasswordForm">
+                <div class="form-group">
+                    <label class="form-label" for="currentPassword">Current Password</label>
+                    <input type="password" class="form-control" id="currentPassword" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="newPassword">New Password</label>
+                    <input type="password" class="form-control" id="newPassword" required minlength="6">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="confirmPassword">Confirm New Password</label>
+                    <input type="password" class="form-control" id="confirmPassword" required minlength="6">
+                </div>
+                <button type="submit" class="btn btn-primary" style="margin-top: 1rem;">Update Password</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="config.js"></script>
+    <script src="notifications.js"></script>
+    <script src="profile.js"></script>
+    <script src="chatbot.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | Smart Campus</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="config.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .sidebar {
+            background: rgba(15, 20, 30, 0.95);
+            border-right-color: rgba(239, 68, 68, 0.2);
+        }
+
+        .nav-item.active {
+            color: var(--danger);
+            border-left-color: var(--danger);
+            background: rgba(239, 68, 68, 0.1);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <a href="admin-dashboard.html" class="sidebar-brand">
+                <img src="assets/logo.png" alt="Logo"
+                    onerror="this.src='https://via.placeholder.com/32/EF4444/FFFFFF?text=A'">
+                Admin Portal
+            </a>
+            <nav class="nav-menu">
+                <a href="#" class="nav-item active" id="nav-all"><i class="fa-solid fa-layer-group"></i> All
+                    Complaints</a>
+                <a href="#" class="nav-item" id="nav-pending"><i class="fa-solid fa-clock"></i> Action Needed</a>
+                <a href="#" class="nav-item" id="nav-solved"><i class="fa-solid fa-check-circle"></i> Resolved
+                    Issues</a>
+                <a href="#" class="nav-item" id="nav-analytics"><i class="fa-solid fa-chart-line"></i> Analytics Dashboard</a>
+                <a href="#" class="nav-item nav-logout" id="logoutBtn"><i class="fa-solid fa-sign-out-alt"></i>
+                    Logout</a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header class="topbar">
+                <h2 class="page-title">Complaint Management</h2>
+                <div class="user-profile">
+                    <div class="user-info" style="text-align: right;">
+                        <span class="user-name">Administrator</span>
+                        <span class="user-role">System Operations</span>
+                    </div>
+                    <div class="avatar" style="background: var(--danger);">A</div>
+                </div>
+            </header>
+
+            <section class="page-content">
+                <div class="content-card" id="tableView">
+                    <div class="table-wrapper">
+                        <table class="saas-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Student</th>
+                                    <th>Title & Info</th>
+                                    <th>Category</th>
+                                    <th>Assigned To</th>
+                                    <th>Status</th>
+                                    <th style="text-align: right;">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="adminTableBody">
+                                <!-- Rows injected via JS -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div id="loadingState" style="text-align: center; padding: 2rem; color: var(--text-muted);">
+                        <i class="fa-solid fa-circle-notch fa-spin"></i> Loading complaints...
+                    </div>
+                    <div id="emptyState" class="hidden"
+                        style="text-align: center; padding: 2rem; color: var(--text-muted);">
+                        No complaints found.
+                    </div>
+                </div>
+
+                <div id="analyticsView" class="hidden">
+                    <div class="grid-stats">
+                        <div class="stat-card">
+                            <i class="fa-solid fa-layer-group stat-icon" style="color: var(--primary);"></i>
+                            <div class="stat-details">
+                                <h3 id="statTotal">...</h3>
+                                <p>Total Complaints</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <i class="fa-solid fa-clock stat-icon" style="color: var(--warning);"></i>
+                            <div class="stat-details">
+                                <h3 id="statPending">...</h3>
+                                <p>Action Needed</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <i class="fa-solid fa-check-circle stat-icon" style="color: var(--success);"></i>
+                            <div class="stat-details">
+                                <h3 id="statResolved">...</h3>
+                                <p>Resolved Issues</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="analytics-grid">
+                        <div class="chart-container">
+                            <h3>Complaints by Category</h3>
+                            <div class="canvas-wrapper">
+                                <canvas id="categoryChart"></canvas>
+                            </div>
+                        </div>
+                        <div class="chart-container">
+                            <h3>Complaints Trends (Monthly)</h3>
+                            <div class="canvas-wrapper">
+                                <canvas id="monthlyChart"></canvas>
+                            </div>
+                        </div>
+                        <div class="chart-container" style="grid-column: 1 / -1;">
+                            <h3>Complaints by Department</h3>
+                            <div class="canvas-wrapper">
+                                <canvas id="departmentChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <div class="toast-container" id="toastContainer"></div>
+    <script src="admin-dashboard.js"></script>
+</body>
+
+</html>

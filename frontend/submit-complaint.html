@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit Complaint | Smart Campus</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <a href="dashboard.html" class="sidebar-brand">
+                <img src="assets/logo.png" alt="Logo"
+                    onerror="this.src='https://via.placeholder.com/32/2563EB/FFFFFF?text=C'">
+                Smart Campus
+            </a>
+            <nav class="nav-menu">
+                <a href="dashboard.html" class="nav-item"><i class="fa-solid fa-chart-pie"></i> Dashboard</a>
+                <a href="submit-complaint.html" class="nav-item active"><i class="fa-solid fa-plus-circle"></i> Submit
+                    Complaint</a>
+                <a href="complaint-list.html" class="nav-item"><i class="fa-solid fa-list"></i> View Complaints</a>
+                <a href="profile.html" class="nav-item"><i class="fa-solid fa-user"></i> My Profile</a>
+                <a href="#" class="nav-item nav-logout" id="logoutBtn"><i class="fa-solid fa-sign-out-alt"></i>
+                    Logout</a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header class="topbar">
+                <h2 class="page-title">Submit Complaint</h2>
+                <div class="user-profile">
+                    <div class="user-info" style="text-align: right;">
+                        <span class="user-name" id="topName">Student Name</span>
+                        <span class="user-role" id="topId">ID: CS101</span>
+                    </div>
+                    <div class="avatar" id="topAvatar">S</div>
+                </div>
+            </header>
+
+            <section class="page-content">
+                <div class="content-card" style="max-width: 600px; margin: 0 auto;">
+                    <form id="complaintForm">
+                        <div class="form-group">
+                            <label for="title" class="form-label">Complaint Title</label>
+                            <input type="text" id="title" class="form-control" placeholder="Brief summary of the issue"
+                                required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="category" class="form-label">Category</label>
+                            <select id="category" class="form-control" required
+                                style="appearance: none; background: rgba(15, 23, 42, 0.6) url('data:image/svg+xml;utf8,<svg fill=%22white%22 viewBox=%220 0 24 24%22 xmlns=%22http://www.w3.org/2000/svg%22><path d=%22M7 10l5 5 5-5z%22 /></svg>') no-repeat right 10px center; background-size: 20px;">
+                                <option value="" disabled selected>Select Category</option>
+                                <option value="Hostel">Hostel</option>
+                                <option value="Canteen">Canteen</option>
+                                <option value="Bus">Bus</option>
+                                <option value="Classroom">Classroom</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="description" class="form-label">Detailed Description</label>
+                            <textarea id="description" class="form-control" rows="5"
+                                placeholder="Please describe your issue in detail..." required
+                                style="resize: vertical;"></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="evidenceFile" class="form-label">Attach Evidence (Optional)</label>
+                            <input type="file" id="evidenceFile" class="form-control" accept=".jpg,.jpeg,.png,.pdf" style="padding: 0.5rem;">
+                            <small style="color: var(--text-muted); display: block; margin-top: 0.5rem;">Max Size: 5MB. Formats: JPG, PNG, PDF.</small>
+                            
+                            <div id="filePreviewContainer" class="hidden" style="margin-top: 1rem; position: relative; display: inline-block;">
+                                <img id="imagePreview" src="" alt="File Preview" style="max-width: 200px; max-height: 200px; border-radius: 8px; border: 1px solid var(--surface-border); display: none;">
+                                <div id="pdfPreview" style="padding: 1rem; background: rgba(37, 99, 235, 0.1); border: 1px solid var(--primary); border-radius: 8px; color: var(--primary); display: none;">
+                                    <i class="fa-solid fa-file-pdf"></i> <span id="pdfName"></span>
+                                </div>
+                                <button type="button" id="removeFileBtn" title="Remove File" style="position: absolute; top: -10px; right: -10px; background: var(--danger); color: white; border: none; border-radius: 50%; width: 24px; height: 24px; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 5px rgba(0,0,0,0.3);">
+                                    <i class="fa-solid fa-times" style="font-size: 12px;"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary" id="submitBtn">
+                            <span><i class="fa-solid fa-paper-plane"></i> Submit Complaint</span>
+                        </button>
+                    </form>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <div class="toast-container" id="toastContainer"></div>
+    <script src="config.js"></script>
+    <script src="submit-complaint.js"></script>
+    <script src="chatbot.js"></script>
+</body>
+
+</html>

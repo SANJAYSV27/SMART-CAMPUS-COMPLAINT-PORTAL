@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Complaints | Smart Campus</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <a href="dashboard.html" class="sidebar-brand">
+                <img src="assets/logo.png" alt="Logo"
+                    onerror="this.src='https://via.placeholder.com/32/2563EB/FFFFFF?text=C'">
+                Smart Campus
+            </a>
+            <nav class="nav-menu">
+                <a href="dashboard.html" class="nav-item"><i class="fa-solid fa-chart-pie"></i> Dashboard</a>
+                <a href="submit-complaint.html" class="nav-item"><i class="fa-solid fa-plus-circle"></i> Submit
+                    Complaint</a>
+                <a href="complaint-list.html" class="nav-item active"><i class="fa-solid fa-list"></i> View
+                    Complaints</a>
+                <a href="profile.html" class="nav-item"><i class="fa-solid fa-user"></i> My Profile</a>
+                <a href="#" class="nav-item nav-logout" id="logoutBtn"><i class="fa-solid fa-sign-out-alt"></i>
+                    Logout</a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header class="topbar">
+                <h2 class="page-title">My Complaints</h2>
+                <div class="user-profile">
+                    <!-- Notifications -->
+                    <div class="notification-wrapper">
+                        <button class="notification-btn" id="notifBtn">
+                            <i class="fa-regular fa-bell"></i>
+                            <span class="notification-badge hidden" id="notifBadge">0</span>
+                        </button>
+                        <div class="notification-dropdown" id="notifDropdown">
+                            <div class="notification-header">
+                                <h3>Notifications</h3>
+                                <button class="mark-all-read" id="notifMarkAll">Mark all as read</button>
+                            </div>
+                            <ul class="notification-list" id="notifList">
+                                <!-- JS injected items -->
+                                <li class="notification-empty">No notifications yet.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="user-info" style="text-align: right; margin-left: 1rem;">
+                        <span class="user-name" id="topName">Student Name</span>
+                        <span class="user-role" id="topId">ID: CS101</span>
+                    </div>
+                    <div class="avatar" id="topAvatar">S</div>
+                </div>
+            </header>
+
+            <section class="page-content">
+                <div class="content-card" style="padding-top: 1.5rem;">
+
+                    <!-- Filter Bar -->
+                    <div class="filter-bar">
+                        <div class="filter-input-group">
+                            <i class="fa-solid fa-search search-icon"></i>
+                            <input type="text" id="searchInput" class="search-input" placeholder="Search by title...">
+                        </div>
+
+                        <select id="categoryFilter" class="filter-select">
+                            <option value="All">All Categories</option>
+                            <option value="Hostel">Hostel</option>
+                            <option value="Canteen">Canteen</option>
+                            <option value="Bus">Bus</option>
+                            <option value="Classroom">Classroom</option>
+                            <option value="Other">Other</option>
+                        </select>
+
+                        <select id="statusFilter" class="filter-select">
+                            <option value="All">All Statuses</option>
+                            <option value="Pending">Pending</option>
+                            <option value="In Progress">In Progress</option>
+                            <option value="Solved">Solved</option>
+                        </select>
+                    </div>
+
+                    <!-- Data Table -->
+                    <div class="table-wrapper">
+                        <table class="saas-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Title</th>
+                                    <th>Category</th>
+                                    <th>Date Submitted</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tableBody">
+                                <!-- Rows injected via JS -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div id="loadingState" style="text-align: center; padding: 2rem; color: var(--text-muted);">
+                        <i class="fa-solid fa-circle-notch fa-spin"></i> Loading complaints...
+                    </div>
+                    <div id="emptyState" class="hidden"
+                        style="text-align: center; padding: 2rem; color: var(--text-muted);">
+                        No complaints found matching your criteria.
+                    </div>
+
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Complaint Details Modal -->
+    <div class="modal-overlay" id="complaintDetailsModal">
+        <div class="details-modal">
+            <div class="modal-header">
+                <h3 class="modal-title">Complaint Details</h3>
+                <button class="modal-close" id="closeDetailsBtn"><i class="fa-solid fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="complaint-info-col">
+                    <h4>Title</h4>
+                    <p id="detailTitle">Loading...</p>
+                    
+                    <h4>Category</h4>
+                    <p id="detailCategory">Loading...</p>
+                    
+                    <h4>Description</h4>
+                    <p id="detailDescription">Loading...</p>
+
+                    <div id="detailAssignedTo" style="margin-top: 1rem;"></div>
+                    <div id="detailEvidence" style="display: none; margin-top: 1.5rem;"></div>
+                </div>
+                <div class="timeline-col">
+                    <h4>Timeline</h4>
+                    <div class="timeline" id="detailTimeline">
+                        <!-- Timeline items injected via JS -->
+                        <div style="text-align:center; padding: 2rem; color: var(--text-muted);"><i class="fa-solid fa-circle-notch fa-spin"></i> Loading...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="config.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="notifications.js"></script>
+    <script src="complaint-list.js"></script>
+    <script src="chatbot.js"></script>
+</body>
+
+</html>

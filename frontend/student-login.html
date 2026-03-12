@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Campus | Student Login</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <div class="auth-container">
+    <div class="auth-bg"></div>
+    <div class="auth-card">
+      <div class="auth-header">
+        <img src="assets/logo.png" alt="College Logo" class="auth-logo" onerror="this.src='https://via.placeholder.com/64/2563EB/FFFFFF?text=Logo'">
+        <h1 class="auth-title">Welcome Back</h1>
+        <p class="auth-subtitle">Sign in to the Complaint Portal</p>
+      </div>
+
+      <form id="loginForm">
+        <div class="form-group">
+          <label for="studentId" class="form-label">Student ID</label>
+          <input type="text" id="studentId" class="form-control" placeholder="e.g. CS101" required>
+        </div>
+
+        <div class="form-group">
+          <label for="password" class="form-label">Password</label>
+          <input type="password" id="password" class="form-control" placeholder="Enter your password" required>
+          <button type="button" class="password-toggle" id="togglePassword">
+            <i class="fa-regular fa-eye"></i>
+          </button>
+        </div>
+
+        <button type="submit" class="btn btn-primary" id="loginBtn">
+          <span>Sign In</span>
+        </button>
+      </form>
+
+      <div class="auth-footer">
+        <p>Don't have an account? <a href="register.html" class="auth-link">Register here</a></p>
+        <p style="margin-top: 1rem;"><a href="admin-login.html" class="auth-link" style="color: var(--text-muted); font-size: 0.8rem;">Admin Portal Access</a></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script src="config.js"></script>
+    <script src="login.js"></script>
+</body>
+</html>

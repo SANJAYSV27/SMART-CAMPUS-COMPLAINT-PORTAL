@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard | Smart Campus</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="config.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <a href="dashboard.html" class="sidebar-brand">
+                <img src="assets/logo.png" alt="Logo"
+                    onerror="this.src='https://via.placeholder.com/32/2563EB/FFFFFF?text=C'">
+                Smart Campus
+            </a>
+            <nav class="nav-menu">
+                <a href="dashboard.html" class="nav-item active"><i class="fa-solid fa-chart-pie"></i> Dashboard</a>
+                <a href="submit-complaint.html" class="nav-item"><i class="fa-solid fa-plus-circle"></i> Submit
+                    Complaint</a>
+                <a href="complaint-list.html" class="nav-item"><i class="fa-solid fa-list"></i> View Complaints</a>
+                <a href="profile.html" class="nav-item"><i class="fa-solid fa-user"></i> My Profile</a>
+                <!-- Chatbot handled by JS globally, but we can put a trigger here if we want -->
+                <a href="#" class="nav-item nav-logout" id="logoutBtn"><i class="fa-solid fa-sign-out-alt"></i>
+                    Logout</a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Topbar -->
+            <header class="topbar">
+                <h2 class="page-title">Overview</h2>
+                <div class="user-profile">
+                    <!-- Notifications -->
+                    <div class="notification-wrapper">
+                        <button class="notification-btn" id="notifBtn">
+                            <i class="fa-regular fa-bell"></i>
+                            <span class="notification-badge hidden" id="notifBadge">0</span>
+                        </button>
+                        <div class="notification-dropdown" id="notifDropdown">
+                            <div class="notification-header">
+                                <h3>Notifications</h3>
+                                <button class="mark-all-read" id="notifMarkAll">Mark all as read</button>
+                            </div>
+                            <ul class="notification-list" id="notifList">
+                                <!-- JS injected items -->
+                                <li class="notification-empty">No notifications yet.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="user-info" style="text-align: right; margin-left: 1rem;">
+                        <span class="user-name" id="topName">Student Name</span>
+                        <span class="user-role" id="topId">ID: CS101</span>
+                    </div>
+                    <div class="avatar" id="topAvatar">S</div>
+                </div>
+            </header>
+
+            <!-- Page Content -->
+            <section class="page-content">
+                <div class="widgets-grid">
+                    <div class="widget-card" style="animation-delay: 0.1s;">
+                        <div class="widget-icon blue"><i class="fa-solid fa-clipboard-list"></i></div>
+                        <div class="widget-details">
+                            <span class="widget-title">Total Complaints</span>
+                            <span class="widget-value" id="valTotal">0</span>
+                        </div>
+                    </div>
+                    <div class="widget-card" style="animation-delay: 0.2s;">
+                        <div class="widget-icon yellow"><i class="fa-solid fa-clock"></i></div>
+                        <div class="widget-details">
+                            <span class="widget-title">Pending & In Progress</span>
+                            <span class="widget-value" id="valPending">0</span>
+                        </div>
+                    </div>
+                    <div class="widget-card" style="animation-delay: 0.3s;">
+                        <div class="widget-icon green"><i class="fa-solid fa-check-circle"></i></div>
+                        <div class="widget-details">
+                            <span class="widget-title">Resolved Complaints</span>
+                            <span class="widget-value" id="valResolved">0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="charts-grid">
+                    <div class="chart-card" style="animation-delay: 0.4s;">
+                        <h3 class="chart-header">Complaints by Category</h3>
+                        <div class="chart-container">
+                            <canvas id="pieChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="chart-card" style="animation-delay: 0.5s;">
+                        <h3 class="chart-header">Submissions Over Time</h3>
+                        <div class="chart-container">
+                            <canvas id="barChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="notifications.js"></script>
+    <script src="dashboard.js"></script>
+    <script src="chatbot.js"></script>
+</body>
+
+</html>
